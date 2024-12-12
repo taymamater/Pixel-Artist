@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pixel Artist Game - Easy Level</title>
+  <link rel="stylesheet" href="main.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .wrapper {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    .hero {
+      width: 100%;
+      height: 100%;
+      min-height: 100vh;
+      background: repeating-linear-gradient(
+        100deg,
+        #60a5fa 0%,
+        #e879f9 25%,
+        #5eead4 50%,
+        #60a5fa 75%
+      );
+      background-size: 300% 300%;
+      animation: smoothBg 10s infinite linear;
+      position: absolute;
+      z-index: -1;
+    }
+
+    @keyframes smoothBg {
+      0% {
+        background-position: 0% 50%;
+      }
+      100% {
+        background-position: 100% 50%;
+      }
+    }
+
+    .content {
+      position: relative;
+      text-align: center;
+      color: white;
+      z-index: 1;
+      padding: 20px;
+    }
+
+    #controls {
+      margin-top: 10px;
+      display: flex;
+      gap: 10px;
+    }
+
+    #game-container {
+      margin-top: 20px;
+      display: flex;
+      gap: 20px;
+    }
+
+    #reference-image {
+      width: 200px;
+      height: 200px;
+      border: 1px solid #ddd;
+    }
+
+    #game-board {
+      display: grid;
+      grid-template-columns: repeat(20, 1fr);
+      grid-template-rows: repeat(20, 1fr);
+      gap: 1px;
+      width: 400px;
+      height: 400px;
+    }
+
+    .cell {
+      background-color: white;
+      border: 1px solid #ddd;
+      cursor: pointer;
+    }
+
+    #switch {
+      display: none;
+    }
+
+    [for="switch"] {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 20px;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      z-index: 10;
+    }
+
+    [for="switch"]:hover {
+      background: rgba(0, 0, 0, 0.9);
+    }
+  </style>
+</head>
+<body>
+  <section class="wrapper">
+    <div class="hero"></div>
+    <div class="content">
+      <h1>Easy Level - 20x20 Grid</h1>
+      <div id="controls">
+        <label for="color-picker">Choose Color:</label>
+        <input type="color" id="color-picker" />
+        <button id="eraser">Eraser</button>
+        <button id="clear-board">Clear Board</button>
+      </div>
+
+      <div id="game-container">
+        <div id="reference-container">
+          <h3>Reference Image</h3>
+          <img id="reference-image" src="reference-easy.png" alt="Reference Image" />
+        </div>
+        <div id="game-board"></div>
+      </div>
+      <input type="checkbox" id="switch">
+      <label for="switch">Switch Background</label>
+    </div>
+  </section>
+  <script src="game.js"></script>
+  <script>
+    initGame(20); // Initialize game with a fixed 20x20 grid
+  </script>
+</body>
+</html>

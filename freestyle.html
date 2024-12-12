@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+  <title>Pixel Artist Game - Freestyle</title>
+  <style>
+       :root {
+      --background-color: #ffffff;
+      --text-color: #000000;
+      --button-bg-color: #000000;
+      --button-text-color: #ffffff;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+       #background-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1; /* Ensure it stays behind content */
+    }
+    #controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+          #theme-controls {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: column; /* Stack buttons vertically */
+      align-items: center;
+      gap: 10px;
+      z-index: 9999;
+    }
+ h1 {
+      font-size: 3.5em;
+      font-family: "Pixelify Sans", sans-serif;
+      margin-bottom: 60px;
+      z-index: 1; /* Above clouds */
+      color: var(--text-color); /* Dynamic color based on theme */
+     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    }
+    button {
+      padding:10px 10px;
+      border-radius: 17px;
+      background-color: var(--button-bg-color);
+      color: var(--button-text-color);
+      text-align: center;
+      font-family: "Pixelify Sans", sans-serif;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease;
+ 
+    }
+    #game-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+    }
+    #game-board {
+      display: grid;
+      grid-gap: 2px; /* Gap between cells */
+      width: 400px;
+      height: 400px;
+    }
+    .cell {
+      background-color: white;
+      border: 1px solid #ddd;
+      cursor: pointer;
+    }
+    .active {
+      border: 2px solid black;
+    }
+       #content {
+      position: relative;
+      z-index: 1; /* Ensure content stays above the background */
+      text-align: center;
+    }
+        button:hover {
+      background-color: #444;
+      color: var(--text-color);
+    }
+      h1 {
+      font-size: 3.5em;
+      font-family: "Pixelify Sans", sans-serif;
+      margin-bottom: 60px;
+      z-index: 1; /* Above clouds */
+      color: var(--text-color); /* Dynamic color based on theme */
+    }
+      
+    label {
+      padding: 10px 20px;
+      border-radius: 17px;
+      background-color: var(--button-bg-color);
+      color: var(--button-text-color);
+      text-align: center;
+      font-family: "Pixelify Sans", sans-serif;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease; 
+    }
+      select {
+  padding: 10px 20px;
+  border-radius: 17px;
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
+  font-family: "Pixelify Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  appearance: none; /* Removes default browser styling */
+  -webkit-appearance: none; /* For Safari */
+  transition: background-color 0.3s ease, color 0.3s ease;
+          background-image: url('data:image/svg+xml;base64,<base64-encoded-arrow>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 14px;
+}
+
+select:hover {
+  background-color: #444;
+  color: var(--text-color);
+}
+
+select:focus {
+  outline: none;
+  box-shadow: 0 0 5px var(--button-bg-color);
+}
+
+select option {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: "Pixelify Sans", sans-serif;
+}
+      input[type="color"] {
+  appearance: none; /* Remove default browser styling */
+  -webkit-appearance: none; /* Remove default styling for Safari */
+  border: none;
+  border-radius: 50%; /* Make it circular */
+  width: 40px; /* Set width */
+  height: 40px; /* Set height */
+  padding: 0;
+  cursor: pointer;
+  overflow: hidden;
+  background-color: transparent; /* Ensure no background */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease;
+}
+
+input[type="color"]::-webkit-color-swatch {
+  border: none; /* Remove border around the color */
+  border-radius: 50%; /* Circle inside the picker */
+  padding: 0;
+}
+
+input[type="color"]::-moz-color-swatch {
+  border: none;
+  border-radius: 50%;
+}
+
+input[type="color"]:hover {
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.4); /* Add hover effect */
+}
+
+input[type="color"]:focus {
+  outline: none;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add focus effect */
+}
+
+  </style>
+</head>
+<body>
+      <div id="background-container"></div>
+ <div id="content">
+       <div id="theme-controls">
+      <button id="theme-toggle">Switch Theme</button>
+      <button id="mute-button">Mute</button>
+      <button id="unmute-button" style="display: none;">Unmute</button>
+    </div>
+<h1>Freestyle Level</h1>
+<div id="controls">
+  <label for="grid-size">Choose A Grid Size:</label>
+  <select id="grid-size">
+    <option value="10">10 x 10</option>
+    <option value="20">20 x 20</option>
+    <option value="30">30 x 30</option>
+    <option value="40">40 x 40</option>
+    <option value="50">50 x 50</option>
+    <option value="60">60 x 60</option>
+  </select>
+  <label for="color-picker">Choose Color:</label>
+  <input type="color" id="color-picker" />
+  <button id="eraser">Eraser</button>
+  <button id="clear-board">Clear Board</button>
+  <button id="download">Download</button>
+</div>
+
+<div id="game-container">
+  <div id="game-board"></div>
+</div>
+      <audio id="background-music" loop>
+      <source src="images/Music.mp3" type="audio/mp3">
+      Your browser does not support the audio element.
+    </audio>
+  </div>
+   
+    
+<script src="game.js"></script>
+<script>
+  const gridSizeSelect = document.getElementById("grid-size");
+  gridSizeSelect.addEventListener("change", () => {
+    initGame(parseInt(gridSizeSelect.value));
+  });
+  initGame(parseInt(gridSizeSelect.value)); // Default grid size based on selection
+    
+    
+    document.addEventListener("DOMContentLoaded", () => {
+      const themeToggleButton = document.getElementById("theme-toggle");
+      const muteButton = document.getElementById("mute-button");
+      const unmuteButton = document.getElementById("unmute-button");
+      const backgroundMusic = document.getElementById("background-music");
+
+      // Set saved theme
+      const savedTheme = localStorage.getItem("theme") || "light";
+      setTheme(savedTheme);
+
+      themeToggleButton.addEventListener("click", () => {
+        const currentTheme = localStorage.getItem("theme") || "light";
+        const newTheme = currentTheme === "dark" ? "light" : "dark";
+        setTheme(newTheme);
+
+        // Play the music after user interaction to bypass autoplay restrictions
+        backgroundMusic.play().catch((err) => {
+          console.log("Autoplay blocked:", err.message);
+        });
+      });
+
+      // Mute and Unmute functionality
+      muteButton.addEventListener("click", () => {
+        backgroundMusic.muted = true;
+        muteButton.style.display = "none";
+        unmuteButton.style.display = "block";
+      });
+
+      unmuteButton.addEventListener("click", () => {
+        backgroundMusic.muted = false;
+        muteButton.style.display = "block";
+        unmuteButton.style.display = "none";
+      });
+    });
+
+    function setTheme(theme) {
+      const root = document.documentElement;
+
+      if (theme === "dark") {
+        root.style.setProperty("--background-color", "#ffffff");
+        root.style.setProperty("--text-color", "#4682B4");
+        root.style.setProperty("--button-bg-color", "#4682B4");
+        root.style.setProperty("--button-text-color", "#ffffff");
+        loadThemeScript("dark");
+      } else {
+        root.style.setProperty("--background-color", "#4682B4");
+        root.style.setProperty("--text-color", "#ffffff");
+        root.style.setProperty("--button-bg-color", "#ffffff");
+        root.style.setProperty("--button-text-color", "#4682B4");
+        loadThemeScript("light");
+      }
+
+      const themeToggleButton = document.getElementById("theme-toggle");
+      themeToggleButton.textContent =
+        theme === "dark" ? "Switch to Dark Mode" : "Switch to Light Mode";
+      localStorage.setItem("theme", theme);
+    }
+
+    function loadThemeScript(theme) {
+      const existingScript = document.querySelector(
+        'script[data-who="💎 Made with naker.io 💎"]'
+      );
+      if (existingScript) existingScript.remove();
+
+      const script = document.createElement("script");
+      script.setAttribute("data-who", "💎 Made with naker.io 💎");
+      script.src =
+        "https://d23jutsnau9x47.cloudfront.net/back/v1.0.9/viewer.js";
+
+      if (theme === "dark") {
+        script.setAttribute(
+          "data-option",
+          `
+          {"environment":{"gradient":"horizontal","sensitivity":0.92,"colorStart":[0,0,0,1],"colorEnd":[22,25,53,1]},
+           "particle":{"life":5,"power":0.01,"texture":"https://res.cloudinary.com/naker-io/image/upload/v1566560053/window_04.png",
+           "number":240,"colorStart":[79,78,78,0.13],"colorEnd":[0,0,0,1],"sizeStart":0.6,"sizeEnd":1.2,
+           "direction1":{"x":100,"y":100,"z":100},"direction2":{"x":-100,"y":-100,"z":-100}},
+           "waterMark":false}`
+        );
+      } else {
+        script.setAttribute(
+          "data-option",
+          `
+          {"environment":{"gradient":"horizontal","sensitivity":0.92,"colorStart":[255,255,255,1],"colorEnd":[184,218,255,1]},
+           "particle":{"life":5,"power":0.01,"texture":"https://res.cloudinary.com/naker-io/image/upload/v1566560053/window_04.png",
+           "number":240,"colorStart":[82,88,111,0.13],"colorEnd":[255,247,247,1],"sizeStart":0.6,"sizeEnd":1.2,
+           "direction1":{"x":100,"y":100,"z":100},"direction2":{"x":-100,"y":-100,"z":-100}},
+           "waterMark":false}`
+        );
+      }
+
+      document.getElementById("background-container").appendChild(script);
+    }
+</script>
+
+</body>
+</html>

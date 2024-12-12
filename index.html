@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pixel Artist Game</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: "Pixelify Sans", sans-serif;
+      background: url('images/22.png') no-repeat center top;
+      background-size: cover;
+      overflow: hidden;
+    }
+
+    .game-title {
+      color: #fff;
+      text-align: center;
+      font-family: "Pixelify Sans", sans-serif;
+      font-size: 110px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 79.389%; /* 158.778px */
+      margin: 0;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+    }
+
+    .start-button {
+      margin-top: 180px;
+      padding: 20px 40px;
+      border-radius: 17px;
+      background: #000;
+      color: #FFF;
+      text-align: center;
+      font-family: "Pixelify Sans", sans-serif;
+      font-size: 40px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+      text-decoration: none;
+      display: inline-block;
+      transition: background-color 0.3s ease;
+    }
+
+    .start-button:hover {
+      background-color: #444;
+    }
+       .start-button .spark {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      overflow: hidden;
+      animation: sparkle-animation 2s infinite;
+      background: conic-gradient(transparent 0 90deg, #fff 90deg 180deg, transparent 180deg);
+      mask-image: radial-gradient(circle, white 70%, transparent 100%);
+      -webkit-mask-image: radial-gradient(circle, white 70%, transparent 100%);
+    }
+
+    @keyframes sparkle-animation {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Cloud animation */
+    .moving-clouds {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1; /* Clouds behind content */
+    }
+
+    .cloud {
+      position: absolute;
+      width: 200px;
+      height: auto;
+      opacity: 0.8;
+    }
+
+    .cloud.left-to-right {
+      animation: moveLeftToRight 20s linear infinite;
+    }
+
+    .cloud.right-to-left {
+      animation: moveRightToLeft 25s linear infinite;
+    }
+
+    @keyframes moveLeftToRight {
+      from {
+        transform: translateX(-200px);
+      }
+      to {
+        transform: translateX(100vw);
+      }
+    }
+
+    @keyframes moveRightToLeft {
+      from {
+        transform: translateX(100vw);
+      }
+      to {
+        transform: translateX(-200px);
+      }
+    }
+        .sparkle-button {
+      margin-top: 180px;
+    }
+  </style>
+</head>
+<body>
+    
+  <h1 class="game-title">Pixel Artist</h1>
+ <a href="start.html" class="start-button">
+   
+    Start Game
+  </a>
+
+  <!-- Moving Clouds -->
+  <div class="moving-clouds">
+    <img src="images/c1.png" class="cloud left-to-right" style="top: 20%;" />
+    <img src="images/c2.png" class="cloud right-to-left" style="top: 60%;" />
+  </div>
+</body>
+</html>
+
+
